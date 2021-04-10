@@ -1,30 +1,25 @@
 <script>
-	export let name;
+	import Tower from './Tower.svelte';
+
+	let numberOfDisks = 3;
+	let source = 'Tower A';
+	let destination = 'Tower C';
+	let intermediate = 'Tower B';
+
+	$: isValidInput = numberOfDisks > 0;
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+<h1>Tower of Hanoi</h1>
+<label for="disks">Number of Disks</label>
+<input bind:value={numberOfDisks} type="number" id="disks" aria-describedby={isValidInput ? null : "error"}>
+
+{#if isValidInput}
+<h2 id="list-heading">How to move {numberOfDisks} disks from {source} to {destination}</h2>
+<ol aria-labelledby="list-heading">
+	<Tower disk={numberOfDisks} {source} {intermediate} {destination} />
+</ol>
+{:else}
+<p id="error">Please enter a positive number.</p>
+{/if}
 </main>
-
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
-</style>
